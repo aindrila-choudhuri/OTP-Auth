@@ -26,6 +26,14 @@ const userSchema = new Schema(
       required: true,
       trim: true,
     },
+    isOtpVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

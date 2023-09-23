@@ -18,3 +18,5 @@ const otpSchema = new Schema(
   },
   { timestamps: true }
 );
+
+module.exports.Otp = model('otp', otpSchema);
