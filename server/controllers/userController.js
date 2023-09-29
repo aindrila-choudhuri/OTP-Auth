@@ -21,12 +21,38 @@ module.exports.signUp = async (req, res) => {
     specialChars: false,
   });
 
-  console.log('====otp====', otp);
+  console.log('====sign up otp====', otp);
 
   await createOtp(phoneNumber, otp);
 
   user = await new User(req.body);
   user.save();
+
+  // add twilio code to send sms
+  // sendSMS(otp, phoneNumber);
+
+  res.status(200).send('OTP sent successfully');
+};
+
+module.exports.signIn = async (req, res) => {
+  const phoneNumber = req.body.phoneNumber;
+
+  // need to add logic for checking with email also
+  let user = await User.findOne({
+    phoneNumber,
+  });
+  if (!user) return res.status(400).send('User does not exist');
+
+  const otp = otpGenerator.generate(6, {
+    digits: true,
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  console.log('====sign in otp====', otp);
+
+  await createOtp(phoneNumber, otp);
 
   // add twilio code to send sms
   // sendSMS(otp, phoneNumber);
